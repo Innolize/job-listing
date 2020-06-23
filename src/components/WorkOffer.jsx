@@ -8,12 +8,12 @@ import { css, cx } from '@emotion/core';
 
 const Container = styled.div`
     border-radius: 5px;
-    width: 80%;
+    width: 60%;
     margin: auto;
     display: grid;
-    grid-template-columns: 15% 40% 45%;
-    box-shadow: 0px 10px  10px #63BABA;
-    
+    grid-template-columns: 15% 43% 43%;
+    box-shadow: 1px 10px 15px #63BABA;
+    border: 1px solid white
 `
 const ImageContainer = styled.div`
     height: 150px;
@@ -22,19 +22,18 @@ const InfoContainer = styled.div`
     display: flex;
     align-items: center;
     height: 150px;
-
 `
 const FilterContainer = styled.div`
     height: 150px;
-
 `
 const keyWords = css`
     border-radius: 5px;
     padding: 5px;
-    background-color: white;
+    background-color: #EBF9F7;
     color: #63BABA;
     font-weight: 500;
     cursor:pointer;
+    margin-left:10px;
     &:hover{
         size: 25px;
         background-color: #63BABA;
@@ -50,13 +49,15 @@ const companyP = css`
     padding-right: 10px;
 `
 const positionP = css`
-    color: rgb(99, 186, 186);
     cursor: pointer;
     font-size: 20px;
     font-weight: 700;
     border: 0px;
     margin: 0px;
     padding: 0px;
+    &:hover{
+        color: rgb(99, 186, 186);
+    }
 `
 const aditionalInfoP = css`
     color: #63BABA;
@@ -91,15 +92,16 @@ const featuredOffer = css`
 `
 
 const companyImage = css`
-height: 90px;
-margin: auto;
-margin-top: 25px;
-display: block;   
+    height: 90px;
+    margin: auto;
+    margin-top: 25px;
+    display: block;   
 `
 
 
 
-const WorkOffer = ({ companyName = "Test" }) => {
+const WorkOffer = ({ data }) => {
+    console.log(`".${data.logo}"`)
     return (
         <div css={css`
         padding-bottom:20px`
@@ -111,17 +113,17 @@ const WorkOffer = ({ companyName = "Test" }) => {
                 <InfoContainer>
                     <div>
                         <div style={{ display: "flex" }}>
-                            <p css={companyP} children={companyName} />
+                            <p css={companyP} children={data.company} />
                             <p css={newOffer}>New!</p>
                             {/* {newOffer === true && } */}
                             <p css={featuredOffer}>Featured</p>
                             {/* {featuredOffer === true && } */}
                         </div>
                         <div>
-                            <p css={positionP}>Senior Frontend Developer</p>
+                            <p css={positionP}>{data.position}</p>
                         </div>
                         <div>
-                            <p css={aditionalInfoP}>1d ago * Full Time * USA only</p>
+                            <p css={aditionalInfoP}>{`${data.postedAt}*${data.contract}*${data.location}`}</p>
                         </div>
                     </div>
                 </InfoContainer>
@@ -131,11 +133,10 @@ const WorkOffer = ({ companyName = "Test" }) => {
                     margin-top: 50px;
                     display:flex
                 `}>
-                        <p css={keyWords}>Frontend </p>
-                        <p css={keyWords}>Senior </p>
-                        <p css={keyWords}>HTML </p>
-                        <p css={keyWords}>CSS </p>
-                        <p css={keyWords}>Javascript </p>
+
+                        {data.role && <p css={keyWords}>{data.role}</p>}
+                        {data.level && <p css={keyWords}>{data.level} </p>}
+                        {data.languages && data.languages.map((x, i) => <p key={i} css={keyWords}>{x} </p>)}
                     </div>
                 </FilterContainer>
             </Container >

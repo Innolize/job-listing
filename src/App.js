@@ -2,6 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import test from './images/bg-header-desktop.svg';
 import WorkOffer from './components/WorkOffer';
+import StickyBoard from './components/StickyBoard';
+import data from './data.json';
+
 
 const Wrapper = styled.div`
 `
@@ -13,18 +16,20 @@ background-color: #5DA5A4;
 background-image: url("${test}");
 `
 
-
 function App() {
+  console.log(data)
   return (
     <div>
       <Wrapper>
         <Header />
+        <StickyBoard />
         <div>
-          <WorkOffer />
-          <WorkOffer />
-          <WorkOffer />
-          <WorkOffer />
-          <WorkOffer />
+          {data.map((x, i) => <WorkOffer key={x.id} data={x} />)}
+          {/*           
+          <WorkOffer data={data}/>
+          <WorkOffer data={data}/>
+          <WorkOffer data={data}/>
+          <WorkOffer data={data}/> */}
         </div>
       </Wrapper>
     </div>
