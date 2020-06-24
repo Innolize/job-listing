@@ -1,70 +1,142 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React from 'react';
 import styled from '@emotion/styled';
-import insure from '../images/insure.svg';
 
 import { css, cx } from '@emotion/core';
 
 const Container = styled.div`
-    border-radius: 20px;
-    width: 80%;
+    border-radius: 5px;
+    width: 60%;
     margin: auto;
     display: grid;
-    grid-template-columns: 15% 40% 45%;
-    box-shadow: 10px 10px  15px #5AA6A2;
-    
+    grid-template-columns: 15% 43% 43%;
+    box-shadow: 1px 10px 15px #63BABA;
+    border: 1px solid white
 `
 const ImageContainer = styled.div`
     height: 150px;
 `
 const InfoContainer = styled.div`
+    display: flex;
+    align-items: center;
     height: 150px;
 `
 const FilterContainer = styled.div`
     height: 150px;
+`
+const keyWords = css`
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #EBF9F7;
+    color: #63BABA;
+    font-weight: 500;
+    cursor:pointer;
+    margin-left:10px;
+    &:hover{
+        size: 25px;
+        background-color: #63BABA;
+        color: white;
+    }
+`
+const companyP = css`
+    color: #63BABA;
+    font-weight: 500;
+    border: 0px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+    padding-right: 10px;
+`
+const positionP = css`
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    &:hover{
+        color: rgb(99, 186, 186);
+    }
+`
+const aditionalInfoP = css`
+    color: #63BABA;
+    margin: 0px;
+    font-weight: 400
+`
 
-    
+const newOffer = css`
+    color: white;
+    font-weight: bold;
+    background-color: #63BABA;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    font-size: 15px;
+    border: 0px;
+    margin: 0px;
+    border-radius: 50px;
+`
+
+const featuredOffer = css`
+    color: white;
+    font-weight: 500;
+    background-color: black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    font-size: 15px;
+    border: 0px;
+    margin: 0px;
+    border-radius: 50px;
+`
+
+const companyImage = css`
+    height: 90px;
+    margin: auto;
+    margin-top: 25px;
+    display: block;   
 `
 
 
 
-
-const WorkOffer = ({ companyName = "Test", newOffer }) => {
+const WorkOffer = ({ data, callbackSticky }) => {
     return (
-        <Container>
-            <ImageContainer>
-                <img css={css`
-                    height: 90px;
-                    margin: auto;
-                    margin-top: 25px;
-                    display: block;                
-                `} src={insure} alt="img"></img>
-            </ImageContainer>
-            <InfoContainer>
-                <h4 children={companyName} />
-                {newOffer === true && <p>New!</p>}
-                <div>
-                    <h2>Senior Frontend Developer</h2>
-                </div>
-                <div>
-                    <p>1d ago * Full Time * USA only</p>
-                </div>
-            </InfoContainer>
-            <FilterContainer>
-                <div css={css`
+        <div css={css`
+        padding-bottom:20px`
+        }>
+            <Container>
+                <ImageContainer>
+                    <img css={companyImage} src={data.logo} alt="img"></img>
+                </ImageContainer>
+                <InfoContainer>
+                    <div>
+                        <div style={{ display: "flex" }}>
+                            <p css={companyP} children={data.company} />
+                            {data.new && <p css={newOffer}>New!</p>}
+                            {data.featured && <p css={featuredOffer}>Featured</p>}
+                        </div>
+                        <div>
+                            <p css={positionP}>{data.position}</p>
+                        </div>
+                        <div>
+                            <p css={aditionalInfoP}>{`${data.postedAt}*${data.contract}*${data.location}`}</p>
+                        </div>
+                    </div>
+                </InfoContainer>
+                <FilterContainer>
+                    <div css={css`
                     text-align: center;
                     margin-top: 50px;
                     display:flex
                 `}>
-                    <p css={css`padding-left: 20px; background-color: white; color: #5DA7A6`}>Frontend </p>
-                    <p css={css`padding-left: 20px; background-color: white; color: #5DA7A6`}>Senior </p>
-                    <p css={css`padding-left: 20px; background-color: white; color: #5DA7A6`}>HTML </p>
-                    <p css={css`padding-left: 20px; background-color: white; color: #5DA7A6`}>CSS </p>
-                    <p css={css`padding-left: 20px; background-color: white; color: #5DA7A6`}>Javascript </p>
-                </div>
-            </FilterContainer>
-        </Container >
+
+                        {data.role && <p css={keyWords} onClick={() => { callbackSticky(data.role) }}>{data.role}</p>}
+                        {data.level && <p css={keyWords} onClick={() => { callbackSticky(data.level) }}>{data.level} </p>}
+                        {data.languages && data.languages.map((x, i) => <p key={i} css={keyWords} onClick={() => { callbackSticky(x) }}>{x} </p>)}
+                        {data.tools && data.tools.map((x, i) => <p key={i} css={keyWords} onClick={() => { callbackSticky(x) }}>{x} </p>)}
+                    </div>
+                </FilterContainer>
+            </Container >
+        </div>
     )
 }
 
