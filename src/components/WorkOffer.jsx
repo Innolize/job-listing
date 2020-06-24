@@ -1,8 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React from 'react';
 import styled from '@emotion/styled';
-import insure from '../images/insure.svg';
 
 import { css, cx } from '@emotion/core';
 
@@ -100,24 +98,21 @@ const companyImage = css`
 
 
 
-const WorkOffer = ({ data }) => {
-    console.log(`".${data.logo}"`)
+const WorkOffer = ({ data, callbackSticky }) => {
     return (
         <div css={css`
         padding-bottom:20px`
         }>
             <Container>
                 <ImageContainer>
-                    <img css={companyImage} src={insure} alt="img"></img>
+                    <img css={companyImage} src={data.logo} alt="img"></img>
                 </ImageContainer>
                 <InfoContainer>
                     <div>
                         <div style={{ display: "flex" }}>
                             <p css={companyP} children={data.company} />
-                            <p css={newOffer}>New!</p>
-                            {/* {newOffer === true && } */}
-                            <p css={featuredOffer}>Featured</p>
-                            {/* {featuredOffer === true && } */}
+                            {data.new && <p css={newOffer}>New!</p>}
+                            {data.featured && <p css={featuredOffer}>Featured</p>}
                         </div>
                         <div>
                             <p css={positionP}>{data.position}</p>
@@ -134,9 +129,10 @@ const WorkOffer = ({ data }) => {
                     display:flex
                 `}>
 
-                        {data.role && <p css={keyWords}>{data.role}</p>}
-                        {data.level && <p css={keyWords}>{data.level} </p>}
-                        {data.languages && data.languages.map((x, i) => <p key={i} css={keyWords}>{x} </p>)}
+                        {data.role && <p css={keyWords} onClick={() => { callbackSticky(data.role) }}>{data.role}</p>}
+                        {data.level && <p css={keyWords} onClick={() => { callbackSticky(data.level) }}>{data.level} </p>}
+                        {data.languages && data.languages.map((x, i) => <p key={i} css={keyWords} onClick={() => { callbackSticky(x) }}>{x} </p>)}
+                        {data.tools && data.tools.map((x, i) => <p key={i} css={keyWords} onClick={() => { callbackSticky(x) }}>{x} </p>)}
                     </div>
                 </FilterContainer>
             </Container >

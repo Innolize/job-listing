@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React from 'react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import iconRemove from '../images/icon-remove.svg';
@@ -53,24 +52,24 @@ const centerDiv = css`
 `
 
 
-const Sticker = () => {
+const Sticker = ({ sticker, callbackRemove }) => {
     return (
         <div style={{ display: "flex", paddingRight: "10px" }}>
-            <p css={stickerP}>Frontend</p><img css={imageSticker} alt="borrar" src={iconRemove}></img>
+            <p css={stickerP}>{sticker}</p><img css={imageSticker} alt="borrar" src={iconRemove} onClick={() => callbackRemove(sticker)}></img>
         </div>
     )
 }
 
-const StickyBoard = () => {
+const StickyBoard = ({ list, callbackRemove, callbackClear }) => {
+    console.log(list)
     return (
         <Container>
             <div style={{ display: "flex", marginLeft: "20px" }}>
-                <Sticker />
-                <Sticker />
-                <Sticker />
+                {list && list.map((x, i) => <Sticker key={i} sticker={x} callbackRemove={callbackRemove} />)}
+
             </div>
             <div css={centerDiv} >
-                <p css={clearStickyBoard}>
+                <p css={clearStickyBoard} onClick={()=>callbackClear()}>
                     Clear
                 </p>
             </div>
